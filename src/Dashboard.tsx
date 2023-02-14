@@ -13,9 +13,10 @@ import {
   Container,
   Grid,
   Paper,
-  Link
+  Link,
+  useMediaQuery
 } from "@mui/material";
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import {
   Menu as MenuIcon,
@@ -93,7 +94,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.up('sm'));
+  console.log(matches)
   const [open, setOpen] = React.useState(true);
+  React.useEffect(() => {
+    if (open && !matches) setOpen(false);
+  }, [matches]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
